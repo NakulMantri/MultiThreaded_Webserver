@@ -97,8 +97,102 @@ Load testing was performed using **Apache JMeter (TCP Sampler)** to simulate tho
 - Git
 - (Optional) Apache JMeter for load testing
 
-Verify Java installation:
+Check Java installation:
 ```bash
 java -version
 javac -version
+```
+
+---
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/<your-username>/Multithreaded-TCP-Server.git
+cd Multithreaded-TCP-Server
+```
+
+---
+
+### 2. Compile the Server
+
+#### Case A — Files in project root
+(If `Server.java` is in the main directory)
+
+```bash
+javac Server.java
+```
+
+#### Case B — Files inside `src/` directory
+```bash
+mkdir out
+javac -d out src/*.java
+```
+
+---
+
+### 3. Run the Server
+
+#### Root structure
+```bash
+java Server 8080
+```
+
+#### `src/` compiled to `out/`
+```bash
+java -cp out Server 8080
+```
+
+You should see:
+```
+Server started on port 8080
+Waiting for client connections...
+```
+
+The server is now listening for TCP connections.
+
+---
+
+### 4. Test the Server (Manual Client)
+
+Using Netcat:
+```bash
+nc localhost 8080
+```
+
+Or Telnet:
+```bash
+telnet localhost 8080
+```
+
+Type any message and press **Enter**.  
+The server will process the request and send a response.
+
+---
+
+### 5. Load Testing (Apache JMeter)
+
+1. Open JMeter
+2. Add **Thread Group**
+3. Add **TCP Sampler**
+
+Configure TCP Sampler:
+
+| Setting | Value |
+|--------|------|
+| Server Name | localhost |
+| Port Number | 8080 |
+| Timeout | 5000 |
+
+Then:
+- Increase **Number of Threads (Users)**
+- Increase **Loop Count**
+- Run the test
+
+Monitor:
+- throughput (requests/sec)
+- latency
+- error rate
+
+
+
 
